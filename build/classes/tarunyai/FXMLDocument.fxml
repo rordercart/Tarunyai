@@ -13,7 +13,7 @@
       <Pane fx:id="Exit" prefHeight="573.0" prefWidth="670.0">
          <children>
             <ComboBox layoutX="177.0" layoutY="14.0" prefHeight="25.0" prefWidth="168.0" promptText="New Connection" />
-            <TextField fx:id="ConnectionName" layoutX="177.0" layoutY="53.0" onAction="#ConnectionName" prefHeight="25.0" prefWidth="168.0" />
+            <TextField fx:id="ConnectionName" layoutX="177.0" layoutY="53.0" prefHeight="25.0" prefWidth="168.0" />
             <ChoiceBox layoutX="177.0" layoutY="94.0" prefHeight="25.0" prefWidth="168.0" />
             <TextField layoutX="177.0" layoutY="145.0" prefHeight="25.0" prefWidth="168.0" />
             <TextField layoutX="177.0" layoutY="195.0" prefHeight="25.0" prefWidth="168.0" />

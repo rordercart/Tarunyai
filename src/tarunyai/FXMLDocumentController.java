@@ -5,8 +5,10 @@
  */
 package tarunyai;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,7 +22,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 /**
  *
  * @author Dhairya
@@ -51,11 +63,43 @@ public class FXMLDocumentController implements Initializable {
         //label.setText("Hello World!");
     }
     @FXML
-    private void TestConnection(ActionEvent event) {
+    private void TestConnection(ActionEvent event)throws Exception {
         System.out.println("it is a test connection ");
        System.out.println(ConnectionName.getText());
-    }
-    
+       DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+       DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+       Document doc = docBuilder.newDocument();
+       Element rootElement = doc.createElement("DBConnection");
+       doc.appendChild(rootElement);
+       Element firstname = doc.createElement("connectionName");
+		firstname.appendChild(doc.createTextNode(ConnectionName.getText()));
+		rootElement.appendChild(firstname);
+                // write the content into xml file
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		DOMSource source = new DOMSource(doc);
+		StreamResult result = new StreamResult(new File("C:\\Users\\Dhairya\\Documents\\file.xml"));
+
+		// Output to console for testing
+		// StreamResult result = new StreamResult(System.out);
+
+		transformer.transform(source, result);
+
+		System.out.println("File saved!");
+                File file = new File("C:\\Users\\Dhairya\\Documents\\file.xml");
+                System.out.println(file);
+		JAXBContext jaxbContext = JAXBContext.newInstance(DBConnection.class);
+                System.out.println(jaxbContext);
+                Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+                System.out.println(jaxbUnmarshaller);
+		DBConnection conn = (DBConnection) jaxbUnmarshaller.unmarshal(file);
+		System.out.println(conn);
+                System.out.println(conn.getConnectionName().toString());
+
+	  }  
+
+
+        
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
